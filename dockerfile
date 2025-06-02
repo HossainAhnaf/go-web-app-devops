@@ -1,4 +1,4 @@
-FROM golang:1.22.5 as base
+FROM golang:1.22.5-alpine AS base
 
 WORKDIR /app
 
@@ -8,13 +8,27 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o main .
 
-FROM gcr.io/distroless/base
+FROM base AS dev
 
-COPY --from=base /app/main ./main
+RUN go install github.com/go-delve/delve/cmd/dlv@v1.8.2
+RUN go install github.com/cosmtrek/air@1.22.0
 
-COPY --from=base /app/static ./static
+CMD ["air", "-c", ".air.toml"]
+
+
+FROM base AS builder
+
+RUN CGO_ENABLED=0 GOOS=linux go build -o main .
+
+
+FROM scratch AS prod
+
+WORKDIR /app
+
+COPY --from=builder /app/main .
+
+COPY --from=builder /app/static ./static
 
 EXPOSE 8080
 
