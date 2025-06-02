@@ -11,11 +11,13 @@ COPY . .
 
 FROM base AS dev
 
+RUN apk add --no-cache git make
 RUN go install github.com/go-delve/delve/cmd/dlv@v1.8.2
-RUN go install github.com/cosmtrek/air@1.22.0
+RUN go install github.com/cosmtrek/air@v1.40.4
+
+EXPOSE 8080
 
 CMD ["air", "-c", ".air.toml"]
-
 
 FROM base AS builder
 

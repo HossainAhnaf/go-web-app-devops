@@ -3,7 +3,7 @@ tmp_dir = ".dev"
 
 [build]
   args_bin = []
-  bin = "./.dev/main serve"
+  bin = "./.dev/main"
   cmd = "go build -o ./.dev/main ."
   delay = 1000
   exclude_dir = []
@@ -11,7 +11,7 @@ tmp_dir = ".dev"
   exclude_regex = ["_test.go"]
   exclude_unchanged = false
   follow_symlink = false
-  full_bin = "make air-bin"
+  full_bin = ""
   include_dir = []
   include_ext = ["go", "tpl", "tmpl", "html"]
   include_file = []
