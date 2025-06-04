@@ -18,4 +18,4 @@ spec:
       - name: app
         image: hossain1/saul-app:v1
         ports:
-        - containerPort: 80800
+        - containerPort: 8080

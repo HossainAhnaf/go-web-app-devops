@@ -1,10 +1,10 @@
 FROM golang:1.22.5-alpine AS base
 
-WORKDIR /app
-
 COPY go.mod ./
 
 RUN go mod download
+
+WORKDIR /app
 
 COPY . .
 

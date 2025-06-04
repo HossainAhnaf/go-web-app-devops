@@ -1,0 +1,54 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+main
+
+# Test & development files
+*.log
+*.env
+*.local
+*.swp
+*.tmp
+*.out
+*.DS_Store
+
+# IDE/editor folders
+.vscode/
+.idea/
+*.iml
+
+# Git
+.git
+.gitignore
+
+# Air config (used for live reload, not for production builds)
+.air.toml
+
+# Docker-related files you don't want in image
+.dockerignore
+docker-compose.yml
+docker-compose.prod.yml
+
+# Kubernetes manifests (not needed inside image)
+k8s/
+
+# Dev-only tools or folders
+.dev/
+
+# Cache and build folders (if you use them)
+build/
+dist/
+tmp/
+vendor/   # If you're using modules, no need to copy vendor unless explicitly vendoring
+
+# Optional: ignore static if served externally (CDN, nginx, etc.)
+# static/
+
+# OS junk
+Thumbs.db
+ehthumbs.db
+desktop.ini
