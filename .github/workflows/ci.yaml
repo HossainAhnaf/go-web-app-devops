@@ -68,7 +68,7 @@ jobs:
         uses: actions/checkout@v4
     
       - name: Update tag in Helm chart
-        uses: lrstanley/helm-version-updater@0.2.0
+        uses: lrstanley/helm-version-updater@1.0.4
 
       - name: Commit & push changes
         run: |
