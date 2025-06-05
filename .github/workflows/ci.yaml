@@ -68,9 +68,10 @@ jobs:
         uses: actions/checkout@v4
     
       - name: Update tag in Helm chart
-        run: |
-          sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/go-web-app-chart/values.yaml
-      
+        uses: lrstanley/helm-version-updater@latest
+        with:
+          check-dir: helm/go-web-app-chart
+
       - name: Commit & push changes
         run: |
           git config --global user.name "HossainAhnaf"
