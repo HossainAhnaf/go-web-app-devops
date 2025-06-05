@@ -1,0 +1,6 @@
+run:
+  timeout: 5m
+  skip-dirs:
+    - vendor
+    - /opt/hostedtoolcache/go
+  issues-exit-code: 1
