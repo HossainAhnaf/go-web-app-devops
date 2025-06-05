@@ -68,7 +68,12 @@ jobs:
         uses: actions/checkout@v4
     
       - name: Update tag in Helm chart
-        uses: lrstanley/helm-version-updater@1.0.4
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'helm/go-web-app-chart/values.yaml'
+          propertyPath: 'file.image.tag'
+          value: '${{github.run_id}}'
+          commitChange: false
 
       - name: Commit & push changes
         run: |
