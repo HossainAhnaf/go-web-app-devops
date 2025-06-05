@@ -69,8 +69,6 @@ jobs:
     
       - name: Update tag in Helm chart
         uses: lrstanley/helm-version-updater@latest
-        with:
-          check-dir: helm/go-web-app-chart
 
       - name: Commit & push changes
         run: |
