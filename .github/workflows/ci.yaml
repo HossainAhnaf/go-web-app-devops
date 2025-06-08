@@ -11,9 +11,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    # steps:
-    #   - name: Checkout repo
-    #     uses: actions/checkout@v4
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
   
     #   - name: Setup GO
     #     uses: actions/setup-go@v5
@@ -28,9 +28,9 @@ jobs:
  
   lint:
     runs-on: ubuntu-latest
-    # steps:
-    #   - name: Checkout repo
-    #     uses: actions/checkout@v4
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
         
     #   - name: Run golang lint
     #     uses: golangci/golangci-lint-action@v7
