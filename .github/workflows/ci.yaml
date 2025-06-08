@@ -90,7 +90,7 @@ jobs:
           file: ./Dockerfile
           target: prod 
           push: true
-          tags: ${{ env.REGISTRY }}/$lower_image_name:${{ github.run_id }}
+          tags: ${{ env.REGISTRY }}/${{ env.lower_image_name }}:${{ github.run_id }}
   
   update-newtag-in-helm-chart:
     runs-on: ubuntu-latest
