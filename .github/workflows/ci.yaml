@@ -114,8 +114,8 @@ jobs:
           tags: | 
               ${{ env.REGISTRY }}/${{ env.lower_image_name }}:${{ github.run_id }}
               ${{ env.REGISTRY }}/${{ env.lower_image_name }}:latest
-           
-          
+      
+
   update-newtag-in-helm-chart:
     runs-on: ubuntu-latest
     needs: [docker]
@@ -134,3 +134,10 @@ jobs:
           branch: ci/helm-update-${{github.run_id}}
           createPR: true
           message: 'ci: update Helm chart image tag to ${{github.run_id}}...'
+      
+      - name: Enable auto-merge
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          pull-request-number: ${{ fromJson(steps.update-helm.outputs.pull_request).number }}
+          merge-method: squash
+     
