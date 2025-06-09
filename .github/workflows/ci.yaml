@@ -110,7 +110,7 @@ jobs:
       - name: Security Scan
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_id }}'
+          image-ref: ${{ steps.meta.outputs.tags }}
           format: 'table'
           severity: 'HIGH,CRITICAL'
           exit-code: '1'
@@ -123,9 +123,7 @@ jobs:
           push: true
           context: .
           target: prod
-          tags: | 
-              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_id }}
-              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ steps.meta.outputs.tags }}
      
       - name: set image tag outputs
         id: set_output
