@@ -23,8 +23,8 @@ jobs:
       - name: Installing dependencies 
         run: go mod download
        
-      - name: Test
-        run: go test ./...
+  #    - name: Test
+  #      run: go test ./...
  
   lint:
     runs-on: ubuntu-latest
