@@ -2,7 +2,7 @@ replicaCount: 3
 image:
   repository: nginx
   pullPolicy: IfNotPresent
-  tag: '15526635345'
+  tag: ''
 file:
   image:
     tag: '15516020709'
