@@ -12,30 +12,28 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
   
-    #   - name: Setup GO
-    #     uses: actions/setup-go@v5
-    #     with:
-    #       go-version: 1.22.7
+      - name: Setup GO
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.22.7
           
-    #   - name: Installing dependencies 
-    #     run: go mod download
+      - name: Installing dependencies 
+        run: go mod download
        
-    #   - name: Test
-    #     run: go test ./...
+      - name: Test
+        run: go test ./...
  
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         
-    #   - name: Run golang lint
-    #     uses: golangci/golangci-lint-action@v7
-    #     with:
-    #       version: v2.1.6
+      - name: Run golang lint
+        uses: golangci/golangci-lint-action@v7
+        with:
+          version: v2.1.6
 
   build:
     name: Build & Upload Artifacts
@@ -43,8 +41,7 @@ jobs:
     needs: [lint, test]
     if: github.event_name == 'push'
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup GO
         uses: actions/setup-go@v5
@@ -71,8 +68,7 @@ jobs:
       REGISTRY: ghcr.io
       IMAGE_NAME: ${{ github.repository }}
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
     
       - name: Lowercase image name
         run:  echo "lower_image_name=${IMAGE_NAME,,}" >> $GITHUB_ENV
@@ -125,21 +121,16 @@ jobs:
     needs: [docker]
     if: github.event_name == 'push'
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
     
       - name: Update tag in Helm chart
-        uses: fjogeleit/yaml-update-action@main
+        uses: fjogeleit/yaml-update-action@v0.16.1
         with:
           valueFile: 'helm/go-web-app-chart/values.yaml'
-          propertyPath: 'file.image.tag'
+          propertyPath: 'image.tag'         
           value: '${{github.run_id}}'
-          commitChange: false
-
-      - name: Commit & push changes
-        run: |
-          git config --global user.name "HossainAhnaf"
-          git config --global user.email "itsbuldusmp@gmail.com"
-          git add helm/go-web-app-chart/values.yaml
-          git commit -m "Update tag in helm chart"
-          git push
+          masterBranchName: main
+          targetBranch: main
+          branch: ci/helm-update-${{github.run_id}}
+          createPR: true
+          message: 'ci: update Helm chart image tag to ${{github.run_id}}...'
