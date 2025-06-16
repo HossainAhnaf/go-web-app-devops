@@ -1,4 +1,4 @@
-FROM golang:1.22.7-alpine AS base
+FROM golang:1.23.10-alpine AS base
 
 COPY go.mod ./
 
