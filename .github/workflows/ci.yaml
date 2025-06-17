@@ -122,10 +122,12 @@ jobs:
           echo "Short form: $short_tag"
       
           echo "image_tag=$full_tag" >> "$GITHUB_OUTPUT"
-          echo "image_tag_short=$short_tag" >> "$GITHUB_OUTPUT"
-          echo ${GITHUB_OUTPUT}
+          echo "image_tag_short=$short_tag" >> "$GITHUB_OUTPUT" 
           
-  
+      - name: log image tag & short tag
+        run: |
+          echo "Image tag: ${{ steps.set_output.outputs.image_tag }}"
+          echo "Image short tag: ${{ steps.set_output.outputs.image_tag_short }}"
       - name: Security Scan
         uses: aquasecurity/trivy-action@0.28.0
         with:
@@ -151,7 +153,10 @@ jobs:
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
-    
+      - name: log image tag & short tag
+        run: |
+          echo "Image tag: ${{ needs.docker.outputs.image_tag }}"
+          echo "Image short tag: ${{ needs.docker.outputs.image_tag_short }}"
       - name: Update tag in Helm chart
         id: update-helm
         uses: fjogeleit/yaml-update-action@v0.16.1
