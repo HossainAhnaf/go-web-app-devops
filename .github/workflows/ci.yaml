@@ -109,25 +109,34 @@ jobs:
 
       - name: set image tag outputs
         id: set_output
+        env:
+          DOCKER_METADATA_JSON: ${{ steps.meta.outputs.json }}
         run: |
-          # Extract full image reference with sha- tag
-          full_ref=$(echo "$DOCKER_METADATA" | jq -r '.tags[] | select(test(":sha-"))' | head -n 1)
+          echo "$DOCKER_METADATA_JSON" > metadata.json
+          cat metadata.json  # Optional debug
 
-          # Extract just the tag (after the last colon)
+          full_ref=$(jq -r '.tags[] | select(test(":sha-"))' metadata.json | head -n 1)
+          if [ -z "$full_ref" ]; then
+            echo "❌ No sha tag found in metadata."
+            echo "image_tag=" >> "$GITHUB_OUTPUT"
+            echo "image_tag_short=" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
           full_tag="${full_ref##*:}"
-          echo "SHA Image tag: $full_tag"
-      
-          # Short tag = first 7 chars of the sha
+          echo "✅ SHA Image tag: $full_tag"
+
           short_tag=$(echo "$full_tag" | cut -c5-11)
-          echo "Short form: $short_tag"
-      
+          echo "🔹 Short form: $short_tag"
+
           echo "image_tag=$full_tag" >> "$GITHUB_OUTPUT"
-          echo "image_tag_short=$short_tag" >> "$GITHUB_OUTPUT" 
-          
+          echo "image_tag_short=$short_tag" >> "$GITHUB_OUTPUT"
+
       - name: log image tag & short tag
         run: |
           echo "Image tag: ${{ steps.set_output.outputs.image_tag }}"
           echo "Image short tag: ${{ steps.set_output.outputs.image_tag_short }}"
+    
       - name: Security Scan
         uses: aquasecurity/trivy-action@0.28.0
         with:
