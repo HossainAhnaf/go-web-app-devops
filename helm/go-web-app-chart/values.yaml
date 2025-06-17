@@ -2,4 +2,4 @@ replicaCount: 3
 image:
   repository: ghcr.io/hossainahnaf/go-web-app-devops
   pullPolicy: IfNotPresent
-  tag: sha-51b1f4562f6fd28c5b8c98e3b698aa570d8be40e
+  tag: sha-0991084160685d9862a54ce4d0ffad29d1b18c1b
