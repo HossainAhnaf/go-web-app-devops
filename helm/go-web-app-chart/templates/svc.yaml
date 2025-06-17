@@ -10,6 +10,4 @@ spec:
       targetPort: 8080
       protocol: TCP
   selector:
-    app: go-web-app  
-  type: NodePort
-      
+    app: go-web-app
